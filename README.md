@@ -1,8 +1,8 @@
 # LeagueofLegends-AutoZhonya
 Simple Python script to activate Zhonya's Hourglass or Stopwatch based on defined health threshold.
 
-
-[![IMAGE ALT TEXT HERE](http://img.youtube.com/vi/mnyrLg9XK9I/0.jpg)](http://www.youtube.com/watch?v=mnyrLg9XK9I)
+### YouTube Video
+[![Youtube Thumbnail - Auto Zhonya Script](http://img.youtube.com/vi/mnyrLg9XK9I/0.jpg)](http://www.youtube.com/watch?v=mnyrLg9XK9I)
 
 
 # Introduction
