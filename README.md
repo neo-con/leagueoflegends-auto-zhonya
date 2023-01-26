@@ -1,6 +1,10 @@
 # LeagueofLegends-AutoZhonya
 Simple Python script to activate Zhonya's Hourglass or Stopwatch based on defined health threshold.
 
+
+[![IMAGE ALT TEXT HERE](http://img.youtube.com/vi/mnyrLg9XK9I/0.jpg)](http://www.youtube.com/watch?v=mnyrLg9XK9I)
+
+
 # Introduction
 
 This repository contains a Python script that utilizes the League of Legends Game Client API to automatically use in-game items (stopwatch and zhonya) when the player's health falls below a certain threshold. The script uses the requests library to make API calls and the pyautogui library to simulate keypresses for activating the items. The script also uses the json library to parse the API's JSON response.
@@ -51,3 +55,5 @@ pipenv shell
 # Note
 
 This script is for educational purposes only and should not be used to gain an unfair advantage in-game. The script is also intended for use in custom games and not in real matches.
+
+
