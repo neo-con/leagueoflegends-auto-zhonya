@@ -2,6 +2,7 @@ import requests
 import json
 import time
 import pyautogui
+import logging
 
 
 class Summoner:
@@ -40,9 +41,10 @@ class GameClient:
     def _get_data(self):
         try:
             response = requests.get(self.BASE_URL, verify=self.CERT_PATH)
+            response.raise_for_status()
             return json.loads(response.text)
-        except requests.exceptions.ConnectionError:
-            print("Unable to connect to the game. Ensure the game is running and try again.")
+        except requests.exceptions.RequestException as e:
+            logging.error(f"Unable to connect to the game. Error: {e}")
             return None
 
     def update(self):
@@ -53,36 +55,46 @@ class GameClient:
             self.data = None
 
 
+class ItemActivator:
+    def __init__(self, summoner):
+        self.summoner = summoner
 
-def use_item(summoner, item_name):
-    item_slot = summoner.find_item_slot(item_name)
-    if item_slot is not None and summoner.check_health():
-        print(item_name, "activated")
-        pyautogui.press(str(item_slot + 1))
-        time.sleep(120)
+    def use_item(self, item_name):
+        item_slot = self.summoner.find_item_slot(item_name)
+        if item_slot is not None and self.summoner.check_health():
+            logging.info(f"{item_name} activated")
+            pyautogui.press(str(item_slot + 1))
+            time.sleep(120)
 
 
-if __name__ == "__main__":
+def main():
+    logging.basicConfig(level=logging.INFO)
+
     client = GameClient()
     if not client.data:
-        exit()  # Exit if we couldn't get initial game data
+        return
 
     player = Summoner(client.data)
+    activator = ItemActivator(player)
+
     stopwatch_name = "Stopwatch"
     zhonya_name = "Zhonya's Hourglass"
 
     while player.name:
         client.update()
         if not client.data:
-            print("Lost connection to the game. Retrying...")
-            time.sleep(5)  # Wait for 5 seconds before retrying
+            logging.error("Lost connection to the game. Retrying...")
+            time.sleep(5)
             continue
 
         player.update(client.data)
 
-        # Only activate items if the game connection is active and the player is alive
         if client.data and player.is_alive():
-            use_item(player, stopwatch_name)
-            use_item(player, zhonya_name)
+            activator.use_item(stopwatch_name)
+            activator.use_item(zhonya_name)
 
         time.sleep(0.3)
+
+
+if __name__ == "__main__":
+    main()
